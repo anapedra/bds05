@@ -1,6 +1,5 @@
 package com.devsuperior.movieflix.dto;
 
-import com.devsuperior.movieflix.entities.Genre;
 import com.devsuperior.movieflix.entities.Movie;
 
 import java.io.Serializable;
@@ -17,10 +16,14 @@ public class MovieDTO implements Serializable {
     private Integer year;
     private String imgUrl;
     private String synopsis;
+    private GenreDTO genre;
     private List<ReviewDTO> reviews=new ArrayList<>();
-    private Genre genre;
 
-    public MovieDTO(Long id, String title, String subTitle, Integer year, String imgUrl,Genre genre) {
+    public MovieDTO() {
+
+    }
+
+    public MovieDTO(Long id, String title, String subTitle, Integer year, String imgUrl, String synopsis, GenreDTO genre) {
         this.id = id;
         this.title = title;
         this.subTitle = subTitle;
@@ -29,8 +32,16 @@ public class MovieDTO implements Serializable {
         this.synopsis = synopsis;
         this.genre = genre;
     }
-    public MovieDTO() {
 
+    public MovieDTO(Movie entity) {
+        id=entity.getId();
+        title=entity.getTitle();
+        subTitle=entity.getSubTitle();
+        year= entity.getYear();
+        imgUrl= entity.getImgUrl();
+        synopsis=entity.getSynopsis();
+        entity.getGenre();
+        entity.getReviews();
     }
 
     public Long getId() {
@@ -81,28 +92,16 @@ public class MovieDTO implements Serializable {
         this.synopsis = synopsis;
     }
 
-    public List<ReviewDTO> getReviews() {
-        return reviews;
-    }
-
-    public Genre getGenre() {
+    public GenreDTO getGenre() {
         return genre;
     }
 
-    public void setGenre(Genre genre) {
+    public void setGenre(GenreDTO genre) {
         this.genre = genre;
     }
 
-    public MovieDTO(Movie entity) {
-        id=entity.getId();
-        title=entity.getTitle();
-        subTitle=entity.getSubTitle();
-        year=entity.getYear();
-        imgUrl=entity.getImgUrl();
-        synopsis=entity.getSynopsis();
-        genre=entity.getGenre();
-        entity.getReviews().forEach(review -> this.reviews.add(new ReviewDTO(review)));
-
+    public List<ReviewDTO> getReviews() {
+        return reviews;
     }
 
     @Override
